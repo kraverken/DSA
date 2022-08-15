@@ -28,6 +28,19 @@ public:
     }
 };
 
+// Getting the lenght of a LL
+int getLength(Node *&head)
+{
+    int len = 0;
+    Node *temp = head;
+    while (temp != NULL)
+    {
+        len++;
+        temp = temp->next;
+    }
+    return len;
+}
+
 void insertatHead(Node *&head, int data)
 {
     if (head == NULL)
@@ -87,7 +100,7 @@ void insertAtposition(Node *&head, Node *&tail, int pos, int data)
     temp->next = nodetoinst;       // assigning the node previous next to inserted node
 }
 
-void deleteNode(int pos, Node *&head)
+void deleteNode(int pos, Node *&head, Node *&tail)
 {
     // deleting first/start node
     if (pos == 1)
@@ -100,20 +113,41 @@ void deleteNode(int pos, Node *&head)
     }
     else
     {
-        Node *curr = head;
-        Node *prev = NULL;
-
-        int count = 1;
-        while (count < pos)
+        if (pos == getLength(head))
         {
-            prev = curr;
-            curr = curr->next;
-            count++;
-        }
-        prev->next = curr->next;
-        curr->next = NULL; // we do not want any to point at the valueso before we delete the node we need to remove its pointing to the value next to it
+            Node *curr = head;
+            Node *prev = NULL;
 
-        delete curr;
+            int count = 1;
+            while (count < pos)
+            {
+                prev = curr;
+                curr = curr->next;
+                count++;
+            }
+            prev->next = curr->next;
+            curr->next = NULL; // we do not want any to point at the valueso before we delete the node we need to remove its pointing to the value next to it
+
+            tail = prev;
+            delete curr;
+        }
+        else
+        {
+            Node *curr = head;
+            Node *prev = NULL;
+
+            int count = 1;
+            while (count < pos)
+            {
+                prev = curr;
+                curr = curr->next;
+                count++;
+            }
+            prev->next = curr->next;
+            curr->next = NULL; // we do not want any to point at the valueso before we delete the node we need to remove its pointing to the value next to it
+
+            delete curr;
+        }
     }
 }
 
@@ -150,7 +184,7 @@ int main()
     insertAtposition(head, tail, 3, 19);
     print(head);
 
-    deleteNode(5, head);
+    deleteNode(getLength(head), head, tail);
     print(head);
     cout << tail->data << endl;
     cout << head->data << endl;
