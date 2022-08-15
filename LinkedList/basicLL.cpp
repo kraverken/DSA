@@ -30,16 +30,32 @@ public:
 
 void insertatHead(Node *&head, int data)
 {
-    Node *temp = new Node(data); // create node
-    temp->next = head;
-    head = temp;
+    if (head == NULL)
+    {
+        Node *temp = new Node(data); // create node
+        head = temp;
+    }
+    else
+    {
+        Node *temp = new Node(data); // create node
+        temp->next = head;
+        head = temp;
+    }
 }
 
 void insertatTail(Node *&tail, int data)
 {
-    Node *temp = new Node(data); // create node
-    tail->next = temp;
-    tail = temp;
+    if (tail == NULL)
+    {
+        Node *temp = new Node(data); // create node
+        tail = temp;
+    }
+    else
+    {
+        Node *temp = new Node(data); // create node
+        tail->next = temp;
+        tail = temp;
+    }
 }
 
 void insertAtposition(Node *&head, Node *&tail, int pos, int data)
@@ -119,6 +135,8 @@ int main()
 
     Node *head = node1;
     Node *tail = node1;
+    // Node *head = NULL;
+    // Node *tail = NULL;
     print(head);
 
     insertatHead(head, 12);

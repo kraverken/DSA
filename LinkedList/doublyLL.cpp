@@ -43,21 +43,41 @@ int getLength(Node *&head)
 }
 
 // insertion at head
-void insertatHead(Node *&head, int data)
+void insertatHead(Node *&head, Node *&tail, int data)
 {
-    Node *temp = new Node(data);
-    temp->next = head;
-    head->prev = temp;
-    head = temp;
+    // if list is empty
+    if (head == NULL)
+    {
+        Node *temp = new Node(data);
+        head = temp;
+        tail = temp;
+    }
+    else
+    {
+        Node *temp = new Node(data);
+        temp->next = head;
+        head->prev = temp;
+        head = temp;
+    }
 }
 
 // insertion at tail
-void insertatTail(Node *&tail, int data)
+void insertatTail(Node *&tail, Node *&head, int data)
 {
-    Node *temp = new Node(data);
-    temp->prev = tail;
-    tail->next = temp;
-    tail = temp;
+    // if list is empty
+    if (tail == NULL)
+    {
+        Node *temp = new Node(data);
+        head = temp;
+        tail = temp;
+    }
+    else
+    {
+        Node *temp = new Node(data);
+        temp->prev = tail;
+        tail->next = temp;
+        tail = temp;
+    }
 }
 
 // insert at any position
@@ -65,7 +85,7 @@ void insertatPosition(Node *&head, Node *&tail, int pos, int data)
 {
     if (pos == 1)
     {
-        insertatHead(head, data);
+        insertatHead(head, tail, data);
         return;
     }
 
@@ -81,7 +101,7 @@ void insertatPosition(Node *&head, Node *&tail, int pos, int data)
     // inserting at last pos
     if (temp->next == NULL)
     {
-        insertatTail(tail, data);
+        insertatTail(tail, head, data);
         return;
     }
 
@@ -99,21 +119,24 @@ int main()
 
     Node *head = node1;
     Node *tail = node1;
+    // Node *head = NULL;
+    // Node *tail = NULL;
     print(head);
 
     cout << getLength(head) << endl;
 
-    insertatHead(head, 12);
+    insertatHead(head, tail, 12);
     print(head);
 
-    insertatTail(tail, 14);
+    insertatTail(tail, head, 14);
     print(head);
 
     insertatPosition(head, tail, 2, 100);
     print(head);
     insertatPosition(head, tail, 1, 200);
     print(head);
-    insertatPosition(head, tail, 6, 300);
+
+    insertatPosition(head, tail, getLength(head) + 1, 300);
     print(head);
 
     return 0;
