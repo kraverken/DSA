@@ -14,6 +14,16 @@ public:
         this->prev = NULL;
         this->next = NULL;
     }
+    ~Node()
+    {
+        int val = this->data;
+        if (next != NULL)
+        {
+            delete next;
+            next = NULL;
+        }
+        cout << "memory free for node with data " << val << endl;
+    }
 };
 
 // traversing a LL
@@ -113,6 +123,61 @@ void insertatPosition(Node *&head, Node *&tail, int pos, int data)
     temp->next = nodetoinsert;
 }
 
+// deleting node
+void deleteNode(int pos, Node *&head, Node *&tail)
+{
+    // deleting first/start node
+    if (pos == 1)
+    {
+        Node *temp = head;
+
+        temp->next->prev = NULL;
+        head = temp->next;
+        temp->next = NULL;
+
+        delete temp;
+    }
+    else
+    {
+        if (pos == getLength(head))
+        {
+            Node *curr = head;
+            Node *prev = NULL;
+
+            int count = 1;
+            while (count < pos)
+            {
+                prev = curr;
+                curr = curr->next;
+                count++;
+            }
+            curr->prev = NULL;
+            prev->next = curr->next;
+            curr->next = NULL;
+
+            tail = prev;
+            delete curr;
+        }
+        else
+        {
+            Node *curr = head;
+            Node *prev = NULL;
+
+            int count = 1;
+            while (count < pos)
+            {
+                prev = curr;
+                curr = curr->next;
+                count++;
+            }
+            curr->prev = NULL;
+            prev->next = curr->next;
+            curr->next = NULL;
+            delete curr;
+        }
+    }
+}
+
 int main()
 {
     Node *node1 = new Node(10);
@@ -139,5 +204,8 @@ int main()
     insertatPosition(head, tail, getLength(head) + 1, 300);
     print(head);
 
+    deleteNode(getLength(head), head, tail);
+    print(head);
+    cout << tail->data << endl;
     return 0;
 }
